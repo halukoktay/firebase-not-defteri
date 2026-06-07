@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Defteri</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="note-book">
+
+        <h1>Kişisel Not Defteri</h1>
+        
+        <form id="note-form">
+        
+            <input 
+                id="note-title"
+                type="text"
+                placeholder="Notunuzun başlığını buraya yazın..."
+                maxlength="100"
+            >
+        
+            <textarea
+                id="note-content"
+                placeholder="Notunuzun içeriğini buraya yazın..."
+                maxlength="500"
+            ></textarea>
+    
+            <button 
+                id="save-button"
+                type="submit">
+                Notu Kaydet
+            </button>
+
+        </form>
+
+        <div id="notes-list">
+
+            <!-- <div class="note-card">
+
+                <div class="note-header">
+                    <h3>Alışveriş Listesi</h3>
+
+                        <div class="note-actions">
+                            <button class="edit-button">Düzenle</button>
+                            <button class="delete-button">Sil</button>
+                        </div>
+                </div>
+
+                <p>Süt, yumurta, ekmek</p>
+                
+            </div> -->
+
+        </div>
+
+    </div>
+
+    <script type="module" src="app.js"></script>
+
+</body>
+</html>
