@@ -26,17 +26,32 @@ onValue(notesRef, function (snapshot) {
     return;
   }
 
-  for (const noteId in notes) {
-    const note = notes[noteId];
+  const notesArray = Object.entries(notes);
 
-    createNoteCard(note.title, note.content, noteId);
+  notesArray.sort(function (a, b) {
+    return b[1].createdAt - a[1].createdAt;
+  });
+
+  //console.log(notesArray);
+
+  for (const [noteId, note] of notesArray) {
+    createNoteCard(
+      note.title,
+      note.content,
+      noteId,
+      note.createdAt,
+      note.updatedAt,
+    );
   }
 });
 
-function createNoteCard(title, content, noteId) {
+function createNoteCard(title, content, noteId, createdAt, updatedAt) {
   //console.log(noteId);
   const noteCard = document.createElement("div");
-  const createdAt = new Date().toLocaleString("tr-TR");
+  const formattedDate = new Date(createdAt).toLocaleString("tr-TR");
+  const formattedUpdatedDate = updatedAt
+    ? new Date(updatedAt).toLocaleString("tr-TR")
+    : null;
 
   noteCard.classList.add("note-card");
 
@@ -53,15 +68,23 @@ function createNoteCard(title, content, noteId) {
         <p>${content}</p>
 
         <small class="note-date">
-            Tarih: ${createdAt}
+            Oluşturuldu: ${formattedDate}
         </small>
+
+        ${
+          formattedUpdatedDate
+            ? `<small class="note-date">
+            Düzenlendi: ${formattedUpdatedDate}
+            </small>`
+            : ""
+        }
     `;
 
   const editButton = noteCard.querySelector(".edit-button");
   editButton.addEventListener("click", function () {
     editingNoteId = noteId;
 
-    console.log(editingNoteId);
+    //console.log(editingNoteId);
 
     const editedTitle = noteCard.querySelector("h3");
     const editedContent = noteCard.querySelector("p");
@@ -97,6 +120,7 @@ saveButton.addEventListener("click", function (event) {
     update(noteUpdateRef, {
       title: noteTitle.value,
       content: noteContent.value,
+      updatedAt: Date.now(),
     });
 
     editingNoteId = null;
@@ -108,6 +132,7 @@ saveButton.addEventListener("click", function (event) {
     set(newNoteRef, {
       title: noteTitle.value,
       content: noteContent.value,
+      createdAt: Date.now(),
     });
   }
 
